@@ -62,7 +62,7 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId:'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')
                         ]){
-                            gv.buildImage(${USER}, ${PASS}, "jaykay84", "java-demo-app")
+                            gv.buildImage(USER, PASS, "jaykay84", "java-demo-app")
                         }
                 }
             }
