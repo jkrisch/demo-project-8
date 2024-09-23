@@ -69,7 +69,7 @@ pipeline {
 
                     //read the new version from the pom.xml
                     def matcher = readFile('pom.xml') =~ '<version>(.+?)</version>'
-                    echo matcher
+                    echo matcher[0]
                     def version = matcher[0][1]
                     env.TAG = "$version-$BUILD_NUMBER"
                 }
