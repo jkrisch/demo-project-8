@@ -34,6 +34,9 @@ docker run -d -v jenkinslec8_home:/var/jenkins_home -p 8081:8080 -p 50000:50000 
    Another downside is you do not have the scripting options so you would need to configure it via UI.<br>
    Therefore the pipeline job type needs to be invoked.<br>
    The programming language for the pipeline scripts is groovy and is stored in so called jenkinsfiles.<br>
-   
+   See: [Jenkinsfile](./Jenkinsfile)
+
+5. 
+
 
    

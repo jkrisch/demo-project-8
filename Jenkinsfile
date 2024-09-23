@@ -1,28 +1,61 @@
+// globally define the gv var to make accessible within every stage
 def gv
 
 pipeline {
     agent any
+
+    /*the paremeters declarative gives you the oportunity to configure parameters you can pass when you run the job
+    There are three native parameter types: string, choice, booleanParam
+    */
+    paremeters{
+        //string(name: 'VERSION', defaultValue:'', description: 'version to deploy on prd')
+        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description)
+        booleanParam(name: 'executesTests', defaultValue: true, description: '')
+    }
+    
+
+    //In the tools declarative you define the tools you need in your build
     tools {
-        maven 'Maven'
+        //retreive the name of the tool from the tools section within your jenkins UI
+        //And this statement makes mvn commands available in all stages with the respective maven version
+        maven 'maven-3.9'
+    }
+
+    //In the environment declarative you define the env vars you need in your build
+    environment{
     }
     stages {
-        stage('build app') {
-            steps {
+        stage('init'){
+            steps{
+                // instead of blowing up your jenkinsfile you can extract script functionalities and put them in an external script.groovy file
+                // and load this file to be able to use the functions definide within there
                 script {
-                    echo 'building the application...'
+                    gv = load "script.groovy"
                 }
             }
         }
-        stage('build image') {
+        stage('build app') {
             steps {
                 script {
-                    echo "building the docker image..."
+                    gv.buildApp
+                }
+            }
+        }
+        stage('run unit tests'){
+            //using the when clause we can decide weather we want to run a stage (similar to if-else conditions in programming)
+            when{
+                expression{
+                    params.executesTests
+                }
+            }
+            steps{
+                gv.testApp
             }
         }
         stage('deploy') {
             steps {
                 script {
-                    echo 'deploying docker image...'
+                    gv.deployApp
                 }
             }
         }
