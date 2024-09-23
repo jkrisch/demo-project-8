@@ -60,7 +60,7 @@ pipeline {
             steps{
                 script{
                     withCredentials([
-                        usernamePassword(credentisId:'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')
+                        usernamePassword(credentialsId:'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')
                         ]){
                             def.buildImage($USER, $PASS, "jaykay84", "java-demo-app")
                         }
