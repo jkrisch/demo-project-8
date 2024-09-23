@@ -7,7 +7,7 @@ pipeline {
     /*the paremeters declarative gives you the oportunity to configure parameters you can pass when you run the job
     There are three native parameter types: string, choice, booleanParam
     */
-    paremeters{
+    parameters{
         //string(name: 'VERSION', defaultValue:'', description: 'version to deploy on prd')
         choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description)
         booleanParam(name: 'executesTests', defaultValue: true, description: '')
