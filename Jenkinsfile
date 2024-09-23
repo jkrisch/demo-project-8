@@ -112,22 +112,26 @@ pipeline {
         }
 
         stage('commit version update'){
-            withCredentials([
+            steps{
+                script{
+                    withCredentials([
                         usernamePassword(credentialsId:'github-login', passwordVariable: 'PASS', usernameVariable: 'USER')
-            ]){
-                sh '''
-                    git config user.email jenkins@example.com
-                    git config user.name jenkins-automation
-                    git status
-                    git branch
-                    git config --list
-                '''
-                
-                sh "git remote set-url origin https://${USER}:${PASS}@github.com/jkrisch//devops-bootcamp-demo-project-8.git"
-                
-                sh 'git add pom.xml'
-                sh 'git commit -m "ci: version bump"'
-                sh 'git push origin HEAD:increment-version'
+                ]){
+                    sh '''
+                        git config user.email jenkins@example.com
+                        git config user.name jenkins-automation
+                        git status
+                        git branch
+                        git config --list
+                    '''
+                    
+                    sh "git remote set-url origin https://${USER}:${PASS}@github.com/jkrisch//devops-bootcamp-demo-project-8.git"
+                    
+                    sh 'git add pom.xml'
+                    sh 'git commit -m "ci: version bump"'
+                    sh 'git push origin HEAD:increment-version'
+                }
+                }
             }
         }
     }
