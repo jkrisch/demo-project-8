@@ -20,17 +20,7 @@ def gv
 pipeline {
     agent any
 
-    /*the paremeters declarative gives you the oportunity to configure parameters you can pass when you run the job
-    There are three native parameter types: string, choice, booleanParam
-    */
-    parameters{
-        //string(name: 'VERSION', defaultValue:'', description: 'version to deploy on prd')
-//        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
-    //      booleanParam(name: 'executesTests', defaultValue: true, description: '')
-    }
-    
-
-    //In the tools declarative you define the tools you need in your build
+   //In the tools declarative you define the tools you need in your build
     tools {
         //retreive the name of the tool from the tools section within your jenkins UI
         //And this statement makes mvn commands available in all stages with the respective maven version
