@@ -11,4 +11,5 @@ def deployApp(){
     echo "deploying ${params.VERSION}"
 }
 
+//return statement important as you need it to be able to import it into the jenkinsfile
 return this
