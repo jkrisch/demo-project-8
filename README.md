@@ -19,4 +19,8 @@
           By doing this we can persist the npm tool within the container (as if we would do it on the cli within the container we will loose it once we run another jenkins container)
           This varian (installing it directly on the host) is much more flexible
 
-
+2. Connect to Git repo
+  * Add Git Repo URL to Source Code Management in Freestyle Project <br>
+  ![git repo](image-2.png)
+  * I did not add credentials as it is a public repo - In case of a private repo credentials would be required
+  
