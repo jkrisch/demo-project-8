@@ -22,8 +22,9 @@ pipeline {
     }
 
     //In the environment declarative you define the env vars you need in your build
-    environment{
+    /*environment{
     }
+    */
     stages {
         stage('init'){
             steps{
