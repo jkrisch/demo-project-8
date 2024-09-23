@@ -25,8 +25,8 @@ pipeline {
     */
     parameters{
         //string(name: 'VERSION', defaultValue:'', description: 'version to deploy on prd')
-        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
-        booleanParam(name: 'executesTests', defaultValue: true, description: '')
+//        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
+    //      booleanParam(name: 'executesTests', defaultValue: true, description: '')
     }
     
 
@@ -67,6 +67,21 @@ pipeline {
             }
         }
 
+        stage('increment version'){
+            steps{
+                script{
+                    echo 'incrementing app version...'
+                    sh 'mvn build-helper:parse-version versions:set /
+                    -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} /
+                    versions:commit'
+
+                    //read the new version from the pom.xml
+                    def matcher = readFile('pom.xml') =~ '<version>(.+)<(version>'
+                    env.tag = matcher[0][1]-$BUILD_NUMBER
+                }
+            }
+        }
+
         stage('build app') {
             steps {
                 script {
@@ -83,9 +98,9 @@ pipeline {
                         ]){
                             dockerLogin(USER, PASS)
 
-                            buildImage("jaykay84", "java-demo-app", params.VERSION)
+                            buildImage("jaykay84", "java-demo-app", tag)
 
-                            dockerPush("jaykay84", "java-demo-app", params.VERSION)
+                            dockerPush("jaykay84", "java-demo-app", tag)
                         }
                 }
             }
