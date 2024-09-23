@@ -17,6 +17,7 @@ library identifier: 'my-shared-lib@main', retriever: modernSCM(
 // globally define the gv var to make accessible within every stage
 def gv
 
+
 pipeline {
     agent any
 
@@ -67,7 +68,7 @@ pipeline {
                     versions:commit'
 
                     //read the new version from the pom.xml
-                    def matcher = readFile('pom.xml') =~ '<version>(.+)<version>'
+                    def matcher = readFile('pom.xml') =~ '<project[^>]*>.*?<version>(.+?)</version>'
                     def version = matcher[0][1]
                     env.TAG = "$version-$BUILD_NUMBER"
                 }
