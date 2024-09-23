@@ -27,11 +27,6 @@ pipeline {
         //And this statement makes mvn commands available in all stages with the respective maven version
         maven 'maven-3.9'
     }
-
-    //In the environment declarative you define the env vars you need in your build
-    environment{
-        TAG = ''
-    }
     
     stages {
         stage('init'){
@@ -69,7 +64,6 @@ pipeline {
 
                     //read the new version from the pom.xml
                     def matcher = readFile('pom.xml') =~ '<version>(.+?)</version>'
-                    echo matcher[0]
                     def version = matcher[0][1]
                     env.TAG = "$version-$BUILD_NUMBER"
                 }
@@ -92,9 +86,9 @@ pipeline {
                         ]){
                             dockerLogin(USER, PASS)
 
-                            buildImage("jaykay84", "java-demo-app", tag)
+                            buildImage("jaykay84", "java-demo-app", "${env.TAG}")
 
-                            dockerPush("jaykay84", "java-demo-app", tag)
+                            dockerPush("jaykay84", "java-demo-app", "${env.TAG}")
                         }
                 }
             }
