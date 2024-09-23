@@ -1,3 +1,9 @@
+#!/user/bin/env groovy
+@Library('my-shared-lib')
+
+// if no import definition like def gv would be there the import of the library would look as follows:
+//@Library('my-shared-lib')_
+
 // globally define the gv var to make accessible within every stage
 def gv
 
@@ -52,30 +58,20 @@ pipeline {
         }
 
         stage('build app') {
-            when {
-                expression {
-                    BRANCH_NAME = 'main'
-                }
-            }
             steps {
                 script {
-                    gv.buildApp()
+                    buildJar()
                 }
             }
         }
 
         stage('build image'){
-            when {
-                expression {
-                    BRANCH_NAME = 'main'
-                }
-            }
             steps{
                 script{
                     withCredentials([
                         usernamePassword(credentialsId:'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')
                         ]){
-                            gv.buildImage(USER, PASS, "jaykay84", "java-demo-app")
+                            buildImage(USER, PASS, "jaykay84", "java-demo-app")
                         }
                 }
             }
@@ -91,11 +87,6 @@ pipeline {
                     choice(name: 'ENV', choices: ['dev', 'staging', 'prod'], description: '')
                 }
             }*/
-            when {
-                expression {
-                    BRANCH_NAME = 'main'
-                }
-            }
             steps {
                 script {
                     gv.deployApp()
