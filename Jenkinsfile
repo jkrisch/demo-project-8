@@ -71,8 +71,8 @@ pipeline {
             steps{
                 script{
                     echo 'incrementing app version...'
-                    sh 'mvn build-helper:parse-version versions:set /
-                    -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} /
+                    sh 'mvn build-helper:parse-version versions:set \
+                    -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
                     versions:commit'
 
                     //read the new version from the pom.xml
