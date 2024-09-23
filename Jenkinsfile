@@ -55,6 +55,19 @@ pipeline {
                 }
             }
         }
+
+        stage('build image'){
+            steps{
+                script{
+                    withCredentials([
+                        usernamePassword(credentisId:'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')
+                        ]){
+                            def.buildImage($USER, $PASS, "jaykay84", "java-demo-app")
+                        }
+                }
+            }
+        }
+
         stage('deploy') {
             // input gives the user the oportunity to choose between different parameters in a certain stage
             // for instance if you want to let the developer decide in which environment the build artifact should be deployed to.
