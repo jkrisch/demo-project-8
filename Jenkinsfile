@@ -35,13 +35,7 @@ pipeline {
                 }
             }
         }
-        stage('build app') {
-            steps {
-                script {
-                    gv.buildApp()
-                }
-            }
-        }
+        
         stage('run unit tests'){
             //using the when clause we can decide weather we want to run a stage (similar to if-else conditions in programming)
             when{
@@ -51,12 +45,31 @@ pipeline {
             }
             steps{
                 script{
+                    echo "Running tests for Branch= ${BRANCH_NAME}"
                     gv.testApp()
                 }
             }
         }
 
+        stage('build app') {
+            when {
+                expression {
+                    BRANCH_NAME = 'main'
+                }
+            }
+            steps {
+                script {
+                    gv.buildApp()
+                }
+            }
+        }
+
         stage('build image'){
+            when {
+                expression {
+                    BRANCH_NAME = 'main'
+                }
+            }
             steps{
                 script{
                     withCredentials([
@@ -78,6 +91,11 @@ pipeline {
                     choice(name: 'ENV', choices: ['dev', 'staging', 'prod'], description: '')
                 }
             }*/
+            when {
+                expression {
+                    BRANCH_NAME = 'main'
+                }
+            }
             steps {
                 script {
                     gv.deployApp()

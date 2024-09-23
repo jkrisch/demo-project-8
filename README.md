@@ -36,8 +36,15 @@ docker run -d -v jenkinslec8_home:/var/jenkins_home -p 8081:8080 -p 50000:50000 
    The programming language for the pipeline scripts is groovy and is stored in so called jenkinsfiles.<br>
    See: [Jenkinsfile](./Jenkinsfile)
 
-### 5. After building the complete pipeline the image can be found [here](https://hub.docker.com/repository/docker/jaykay84/java-demo-app/general)
+### 5. After building the complete pipeline 
+the image can be found [here](https://hub.docker.com/repository/docker/jaykay84/java-demo-app/general)
 
-### 6. 
+### 6. Multibranch Pipelines
+
+Whenever a new branch is added for a feature or a bugfix, we want this pipeline to run.<br>
+For this you can use the multibranch job type in jenkins.<br>
+When you run the scan and if there is a Jenkinsfile file in the branch it will execute this Jenkinsfile and run the pipeline.<br>
+If we want to only run the build and deploy steps for the main branch we can do as seen in the [Jenkinsfile](./Jenkinsfile). <br>
+We added the when-clause to check weather the current branch is the main branch.
 
    
