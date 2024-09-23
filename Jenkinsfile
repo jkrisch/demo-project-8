@@ -1,5 +1,15 @@
 #!/user/bin/env groovy
-@Library('my-shared-lib')
+//@Library('my-shared-lib')
+
+//another way to import the library is
+library identifier: 'my-shared-lib@main', retriever: modernSCM(
+    [
+        $class: 'GitSCMSource',
+        remote: 'https://github.com/jkrisch/devops-bootcamp-project-8-shared-library.git'
+        //in case the repo is private:
+        //credentialsId:<<name-of-credentials-in-jenkins-store>>
+    ]
+)
 
 // if no import definition like def gv would be there the import of the library would look as follows:
 //@Library('my-shared-lib')_
