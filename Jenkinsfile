@@ -28,9 +28,10 @@ pipeline {
     }
 
     //In the environment declarative you define the env vars you need in your build
-    /*environment{
+    environment{
+        TAG = ''
     }
-    */
+    
     stages {
         stage('init'){
             steps{
@@ -67,7 +68,8 @@ pipeline {
 
                     //read the new version from the pom.xml
                     def matcher = readFile('pom.xml') =~ '<version>(.+)<version>'
-                    env.tag = matcher[0][1]-$BUILD_NUMBER
+                    def version = matcher[0][1]
+                    env.TAG = "$version-$BUILD_NUMBER"
                 }
             }
         }
