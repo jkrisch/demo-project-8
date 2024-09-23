@@ -23,4 +23,17 @@
   * Add Git Repo URL to Source Code Management in Freestyle Project <br>
   ![git repo](image-2.png)
   * I did not add credentials as it is a public repo - In case of a private repo credentials would be required
-  
+
+3. To install docker I installed it within the container build of my custom jenkins container: [Dockerfile](./Dockerfile_Jenkins_Container)
+I also had to run the container as follows (where jenkins:lec-8 is the container in my local container registry)
+```bash
+docker run -d -v jenkinslec8_home:/var/jenkins_home -p 8081:8080 -p 50000:50000 -v /var/run/docker.sock:/var/run/docker.sock --restart=on-failure --name jenkins-controller-lec8 jenkins:lec-8
+```
+
+4. As it is a common practice to use one freestyle job for one job/step you would need to have many jobs, which keeps to become an unmaintainable task. <br>
+   Another downside is you do not have the scripting options so you would need to configure it via UI.<br>
+   Therefore the pipeline job type needs to be invoked.<br>
+   The programming language for the pipeline scripts is groovy and is stored in so called jenkinsfiles.<br>
+   
+
+   
