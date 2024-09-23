@@ -1,0 +1,21 @@
+FROM jenkins/jenkins:2.467-jdk21
+USER root
+
+ARG DOCKER_GID=138
+
+RUN mkdir /var/jenkins_home/.kube && \
+    mkdir /var/jenkins_home/.aws
+#COPY kubeconfig /var/jenkins_home/.kube/
+
+# Install Docker CLI, gradle and curl, gnupg
+RUN apt-get update && \
+    apt-get install -y docker.io \
+                       gradle \
+                       nodejs \
+                       npm
+
+
+RUN sed -i "s/docker:x:[0-9]*/docker:x:${DOCKER_GID}/" /etc/group && \
+    usermod -aG docker jenkins
+
+USER jenkins
