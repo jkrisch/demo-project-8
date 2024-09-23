@@ -71,7 +71,7 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId:'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')
                         ]){
-                            buildImage(USER, PASS, "jaykay84", "java-demo-app")
+                            buildImage(USER, PASS, "jaykay84", "java-demo-app", params.VERSION)
                         }
                 }
             }
