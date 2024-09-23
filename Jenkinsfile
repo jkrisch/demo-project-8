@@ -66,7 +66,7 @@ pipeline {
                     versions:commit'
 
                     //read the new version from the pom.xml
-                    def matcher = readFile('pom.xml') =~ '<version>(.+)<(version>'
+                    def matcher = readFile('pom.xml') =~ '<version>(.+)<version>'
                     env.tag = matcher[0][1]-$BUILD_NUMBER
                 }
             }
